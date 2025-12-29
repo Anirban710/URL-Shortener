@@ -18,13 +18,18 @@ const redis = require("redis");
 const client = redis.createClient({
   socket: {
     host: process.env.REDIS_HOST,
-    port: process.env.REDIS_PORT
+    port: process.env.REDIS_PORT,
+    tls: true
   },
   password: process.env.REDIS_PASSWORD
 });
 
-client.connect()
-  .then(() => console.log("Redis connected"))
-  .catch(err => console.error("Redis error", err));
+client.on("error", (err) => console.error("Redis Error", err));
+
+(async () => {
+  await client.connect();
+  console.log("Redis connected");
+})();
 
 module.exports = client;
+
