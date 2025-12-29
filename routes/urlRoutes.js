@@ -24,9 +24,12 @@ router.post("/shorten", async (req, res) => {
 
     await url.save();
 
+    const baseUrl = process.env.BASE_URL || "http://localhost:5000";
+
     res.json({
-        shortUrl: `http://localhost:5000/${shortCode}`
+        shortUrl: `${baseUrl}/${shortCode}`
     });
+
 });
 
 router.get("/:code", async (req, res) => {
